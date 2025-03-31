@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ongezwa's Birthday Adventure</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+  </div>
+
+  <!-- Progress Tracker -->
+  <div class="progress-container" id="progressTracker">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+      <div class="progress-steps">
+        <div class="step" data-level="0">
+          <div class="step-bubble"><i class="fas fa-home"></i></div>
+          <span class="step-label">Start</span>
+        </div>
+        <div class="step" data-level="1">
+          <div class="step-bubble"><i class="fas fa-puzzle-piece"></i></div>
+          <span class="step-label">Puzzle</span>
+        </div>
+        <div class="step" data-level="2">
+          <div class="step-bubble"><i class="fas fa-question"></i></div>
+          <span class="step-label">Trivia</span>
+        </div>
+        <div class="step" data-level="3">
+          <div class="step-bubble"><i class="fas fa-gift"></i></div>
+          <span class="step-label">Wheel</span>
+        </div>
+        <div class="step" data-level="4">
+          <div class="step-bubble"><i class="fas fa-cake-candles"></i></div>
+          <span class="step-label">Surprise</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Container -->
+  <div class="game-container">
+    <!-- Start Page -->
+    <div class="level active" id="startPage">
+      <div class="level-content">
+        <div class="logo">
+          <i class="fas fa-birthday-cake"></i>
+          <h1>Happy Birthday Ongezwa!</h1>
+        </div>
+        <div class="form-group">
+          <input type="password" id="playerName" placeholder="Enter password..." class="input-field" />
+          <button class="btn btn-primary" id="startButton">
+            Start Adventure <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="quick-links">
+          <button class="btn btn-secondary" id="videoBtn">
+            <i class="fas fa-video"></i> Messages
+          </button>
+          <button class="btn btn-secondary" id="musicBtn">
+            <i class="fas fa-music"></i> Playlist
+          </button>
+          <button class="btn btn-secondary" id="galleryBtn">
+            <i class="fas fa-images"></i> Gallery
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Puzzle Level -->
+    <div class="level" id="level1">
+      <div class="level-content">
+        <h1><i class="fas fa-puzzle-piece"></i> Word Hunt</h1>
+        <p class="subheader">Find the hidden birthday words in the grid!</p>
+        <div class="word-puzzle-container">
+          <div id="wordGrid" class="word-grid"></div>
+          <div class="hint-container">
+            <button class="btn btn-secondary" id="hintButton">
+              <i class="fas fa-lightbulb"></i> Hint (<span id="hintCount">3</span>)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trivia Level -->
+    <div class="level" id="level2">
+      <div class="level-content">
+        <h1><i class="fas fa-question-circle"></i> Birthday Trivia</h1>
+        <div class="stats">
+          <span class="score"><i class="fas fa-star"></i> <span id="quizScore">0</span></span>
+          <span class="progress"><span id="currentQuestion">1</span>/5</span>
+        </div>
+        <div id="quizContainer" class="quiz-container"></div>
+      </div>
+    </div>
+
+    <!-- Wheel of Fortune Level -->
+    <div class="level" id="level3">
+      <div class="level-content">
+        <h1><i class="fas fa-gift"></i> Wheel of Fortune</h1>
+        <div class="stats">
+          <span class="attempts">Spins: <span id="spinCount">3</span>/3</span>
+        </div>
+        <div class="wheel-container">
+          <div class="wheel" id="wheel">
+            <div class="wheel-pointer"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary spin-button" id="spinButton">
+          <i class="fas fa-sync-alt"></i> SPIN!
+        </button>
+        <div id="prizeDisplay" class="prize-display"></div>
+      </div>
+    </div>
+
+    <!-- Final Level -->
+    <div class="level" id="level4">
+      <div class="level-content">
+        <h1>Happy Birthday, <span id="playerDisplayName">Ongezwa</span>! 🎉</h1>
+        <div class="birthday-box" id="birthdayBox">
+          <div class="box-lid"></div>
+          <div class="box-body">
+            <div class="box-content">
+              <h2>28 Reasons Why We Love You!</h2>
+              <div class="reasons-list" id="reasonsList"></div>
+            </div>
+          </div>
+        </div>
+        <div class="personal-message">
+          <p>Ongezwa, you are deeply loved and cherished. Wishing you the happiest of birthdays!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="nav-controls">
+    <button class="nav-btn prev" id="prevBtn">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="nav-btn next" id="nextBtn">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ongezwa's Birthday Adventure</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+  </div>
+
+  <!-- Progress Tracker -->
+  <div class="progress-container" id="progressTracker">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+      <div class="progress-steps">
+        <div class="step" data-level="0">
+          <div class="step-bubble"><i class="fas fa-home"></i></div>
+          <span class="step-label">Start</span>
+        </div>
+        <div class="step" data-level="1">
+          <div class="step-bubble"><i class="fas fa-puzzle-piece"></i></div>
+          <span class="step-label">Puzzle</span>
+        </div>
+        <div class="step" data-level="2">
+          <div class="step-bubble"><i class="fas fa-question"></i></div>
+          <span class="step-label">Trivia</span>
+        </div>
+        <div class="step" data-level="3">
+          <div class="step-bubble"><i class="fas fa-gift"></i></div>
+          <span class="step-label">Wheel</span>
+        </div>
+        <div class="step" data-level="4">
+          <div class="step-bubble"><i class="fas fa-cake-candles"></i></div>
+          <span class="step-label">Surprise</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Container -->
+  <div class="game-container">
+    <!-- Start Page -->
+    <div class="level active" id="startPage">
+      <div class="level-content">
+        <div class="logo">
+          <i class="fas fa-birthday-cake"></i>
+          <h1>Happy Birthday Ongezwa!</h1>
+        </div>
+        <div class="form-group">
+          <input type="password" id="playerName" placeholder="Enter password..." class="input-field" />
+          <button class="btn btn-primary" id="startButton">
+            Start Adventure <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="quick-links">
+          <button class="btn btn-secondary" id="videoBtn">
+            <i class="fas fa-video"></i> Messages
+          </button>
+          <button class="btn btn-secondary" id="musicBtn">
+            <i class="fas fa-music"></i> Playlist
+          </button>
+          <button class="btn btn-secondary" id="galleryBtn">
+            <i class="fas fa-images"></i> Gallery
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word Puzzle Level -->
+    <div class="level" id="level1">
+      <div class="level-content">
+        <h1><i class="fas fa-puzzle-piece"></i> Word Hunt</h1>
+        <p class="subheader">Find the hidden birthday words in the grid!</p>
+        <div class="word-puzzle-container">
+          <div id="wordGrid" class="word-grid"></div>
+          <div class="hint-container">
+            <button class="btn btn-secondary" id="hintButton">
+              <i class="fas fa-lightbulb"></i> Hint (<span id="hintCount">3</span>)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trivia Level -->
+    <div class="level" id="level2">
+      <div class="level-content">
+        <h1><i class="fas fa-question-circle"></i> Birthday Trivia</h1>
+        <div class="stats">
+          <span class="score"><i class="fas fa-star"></i> <span id="quizScore">0</span></span>
+          <span class="progress"><span id="currentQuestion">1</span>/5</span>
+        </div>
+        <div id="quizContainer" class="quiz-container"></div>
+      </div>
+    </div>
+
+    <!-- Wheel of Fortune Level -->
+    <div class="level" id="level3">
+      <div class="level-content">
+        <h1><i class="fas fa-gift"></i> Wheel of Fortune</h1>
+        <div class="stats">
+          <span class="attempts">Spins: <span id="spinCount">3</span>/3</span>
+        </div>
+        <div class="wheel-container">
+          <div class="wheel" id="wheel">
+            <div class="wheel-pointer"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary spin-button" id="spinButton">
+          <i class="fas fa-sync-alt"></i> SPIN!
+        </button>
+        <div id="prizeDisplay" class="prize-display"></div>
+      </div>
+    </div>
+
+    <!-- Final Level -->
+    <div class="level" id="level4">
+      <div class="level-content">
+        <h1>Happy Birthday, <span id="playerDisplayName">Ongezwa</span>! 🎉</h1>
+        <div class="birthday-box" id="birthdayBox">
+          <div class="box-lid"></div>
+          <div class="box-body">
+            <div class="box-content">
+              <h2>28 Reasons Why We Love You!</h2>
+              <div class="reasons-list" id="reasonsList"></div>
+            </div>
+          </div>
+        </div>
+        <div class="personal-message">
+          <p>Ongezwa, you are deeply loved and cherished. Wishing you the happiest of birthdays!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="nav-controls">
+    <button class="nav-btn prev" id="prevBtn">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="nav-btn next" id="nextBtn">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
